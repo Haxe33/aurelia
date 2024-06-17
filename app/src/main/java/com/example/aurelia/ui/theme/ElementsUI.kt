@@ -1,5 +1,6 @@
 package com.example.aurelia.ui.theme
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -34,10 +35,11 @@ fun Label(str: String){
     )
 }
 @Composable
-fun Typer(str: String, onTextChange: (String) -> Unit){
+fun Typer(str: String, onTextChange: (String) -> Unit, label: String){
     OutlinedTextField(
         str,
         onTextChange,
-
+        label = { Text(label) },
+        modifier = Modifier.fillMaxWidth()
     )
 }

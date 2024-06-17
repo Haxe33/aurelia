@@ -59,12 +59,14 @@ fun Greeting(modifier: Modifier) {
         Label("Username:")
         Typer(
             username,
-            onUsernameChange
+            onUsernameChange,
+            "Username eingeben",
         )
-        Label("Password:")
+        Label("Passwort:")
         Typer(
             password,
-            onUsernameChange
+            onPasswordChange,
+            "Passwort eingeben"
         )
     }
 }
