@@ -5,33 +5,38 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
+import androidx.compose.material3.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.example.aurelia.ui.theme.AureliaTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.delay
@@ -45,75 +50,92 @@ class Description : ComponentActivity() {
         setContent {
             AureliaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ZodiacSignSwiper(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Column(modifier = Modifier.padding(innerPadding)) {
+                        ZodiacSignSwiper(modifier = Modifier.fillMaxWidth())
+                        TopBarSwiper()
+                    }
                 }
             }
         }
     }
-    /*@OptIn(ExperimentalPagerApi::class)
+    @OptIn(ExperimentalPagerApi::class)
     @Composable
-    fun TopBarSwiper(modifier: Modifier){
-        var selectedTabIndex by remember {
-            mutableIntStateOf(0)
-        }
-        val textSlider=listOf(
-            Text(text = "Beschreibung"),
-            Text(text = "Horoskop"),
-            Text(text = "Aszendent"),
-            Text(text = "Compatibility Check")
+    fun TopBarSwiper() {
+        var selectedTabIndex by remember { mutableStateOf(0) }
+
+        val tabs = listOf(
+            "description", "horoscope", "ascendant", "compatibility check"
         )
-        val pagerState = rememberPagerState {
-            textSlider.size
-        }
+
+        val pagerState = rememberPagerState(initialPage = 0)
 
         LaunchedEffect(key1 = selectedTabIndex) {
             pagerState.animateScrollToPage(selectedTabIndex)
         }
 
-        LaunchedEffect(key1 = pagerState.currentPage, pagerState.isScrollInProgress) {
-            if (!pagerState.isScrollInProgress)
+        LaunchedEffect(key1 = pagerState.currentPage, key2 = pagerState.isScrollInProgress) {
+            if (!pagerState.isScrollInProgress) {
                 selectedTabIndex = pagerState.currentPage
-        }
-
-        Column {
-            HorizontalPager(
-                count = textSlider.size,
-                state = pagerState,
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                modifier = Modifier
-                    .height(170.dp)
-                    .fillMaxWidth()
-            ) { page ->
-                Card(
-                    modifier = modifier
-                        .graphicsLayer {
-                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-
-                            lerp(
-                                start = 0.85f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            ).also { scale ->
-                                scaleX = scale
-                                scaleY = scale
-                            }
-
-                            alpha = lerp(
-                                start = 0.5f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            )
-                        }
-                ){
-                    val string: String= textSlider[page].toString()
-                    Text(string)
-                }
             }
         }
 
-    }*/
+        Column(modifier = Modifier.fillMaxWidth()) {
+            TabRow(
+                selectedTabIndex = selectedTabIndex,
+                backgroundColor = Color.Black,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+                        color = Color.White,
+                    )
+                }
+            ) {
+                tabs.forEachIndexed { index, tab ->
+                    Tab(
+                        selected = selectedTabIndex == index,
+                        onClick = {
+                            selectedTabIndex = index
+                        },
+                        text = { Text(tab, textAlign = TextAlign.Center, color = Color.White) },
+                    )
+                }
+            }
+
+            HorizontalPager(
+                count = tabs.size,
+                state = pagerState,
+                modifier = Modifier.fillMaxWidth()
+            ) {/*page ->
+                when (page) {
+                    0 -> DescriptionScreen()
+                    1 -> HoroscopeScreen()
+                    2 -> AscendantScreen()
+                    3 -> CompatibilityCheckScreen()
+                }*/
+            }
+        }
+    }
+
+    private @Composable
+    fun CompatibilityCheckScreen() {
+        TODO("Not yet implemented")
+    }
+
+    private @Composable
+    fun AscendantScreen() {
+        TODO("Not yet implemented")
+    }
+
+    private @Composable
+    fun HoroscopeScreen() {
+        TODO("Not yet implemented")
+    }
+
+    private @Composable
+    fun DescriptionScreen() {
+        TODO("Not yet implemented")
+    }
+
     //Quelle: [L1]
     @OptIn(ExperimentalPagerApi::class)
     @Composable
@@ -187,10 +209,11 @@ class Description : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview() {
-        MaterialTheme {
-            ZodiacSignSwiper(Modifier.padding(vertical = 15.dp))
-            Spacer(modifier = Modifier.height(40.dp))
-            //TopBarSwiper(modifier = Modifier)
+        AureliaTheme {
+            Column {
+                ZodiacSignSwiper(Modifier.padding(vertical = 15.dp))
+                TopBarSwiper()
+            }
         }
     }
 }
