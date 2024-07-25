@@ -87,7 +87,7 @@ class Description : ComponentActivity() {
         var selectedTabIndex by remember { mutableIntStateOf(0) }
 
         val tabs = listOf(
-            "description", "horoscope", "ascendant", "compatibility check"
+            "description", "horoscope", "ascendant", "compatibility checker"
         )
 
         val pagerState = rememberPagerState(initialPage = 0)
@@ -141,23 +141,10 @@ class Description : ComponentActivity() {
                     0 -> DescriptionScreen(currentZodiacSign)
                     1 -> HoroscopeScreen(currentZodiacSign)
                     2 -> AscendantScreen(currentZodiacSign)
-                    3 -> CompatibilityCheckScreen(currentZodiacSign)
+                    3 -> CompatibilityCheckerScreen(currentZodiacSign)
                 }
             }
         }
-    }
-
-    @Composable
-    private fun CompatibilityCheckScreen(currentZodiacSign: ZodiacSign) {
-        val scrollState = rememberScrollState()
-        Column(modifier = Modifier.verticalScroll(scrollState).padding(15.dp)) {
-            Heading(currentZodiacSign.name)
-            Spacer(Modifier.height(15.dp))
-            Text(
-                "COMPATIBILITY Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet\n"
-            )
-        }
-        //TODO complete
     }
 
     @Composable
