@@ -23,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,7 +50,7 @@ fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
         //TODO add Text wie das Sternzeichen so in der Liebe ist
         Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
         Spacer(Modifier.height(8.dp))
-        PinchReveal(modifier = Modifier.size(240.dp))
+        CompatibilityReveal(modifier = Modifier.size(240.dp))
         Instructions(str = "Press long on the heart to reveal your soulmate!")
     }
 
@@ -60,7 +59,7 @@ fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
 //Quelle [L4] for gesture handling
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PinchReveal(modifier: Modifier = Modifier) {
+fun CompatibilityReveal(modifier: Modifier = Modifier) {
     var isVisible by remember { mutableStateOf(true) }
     var progress by remember { mutableStateOf(0.0f) }
     val targetProgress= getCompatibility()
@@ -101,12 +100,12 @@ fun PinchReveal(modifier: Modifier = Modifier) {
                 CircularProgressIndicator(
                     progress = { progress },
                     modifier = Modifier.size(190.dp),
-                    color = Color(0xffd15b8f),
+                    color = Purple80,
                     strokeWidth = 15.dp,
                 )
                 Text(
                     text = "${(progress * 100).toInt()}% match",
-                    color = Color(0xffd15b8f),
+                    color = Purple80,
                     fontSize = 27.sp,
                     modifier = Modifier.padding(top = 8.dp)
                 )

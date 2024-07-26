@@ -28,7 +28,7 @@ import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import kotlin.math.absoluteValue
 
-private val zodiacSigns= listOf(
+val zodiacSigns= listOf(
     ZodiacSign("Capricorn", R.drawable.steinbock),
     ZodiacSign("Aquarius", R.drawable.wassermann),
     ZodiacSign("Pisces", R.drawable.fisch),
