@@ -41,6 +41,7 @@ import androidx.compose.ui.util.lerp
 import com.example.aurelia.logic.ZodiacSign
 import com.example.aurelia.ui.theme.AureliaTheme
 import com.example.aurelia.ui.theme.Heading
+import com.example.aurelia.ui.theme.zodiacSignSwiper
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
@@ -148,19 +149,6 @@ class Description : ComponentActivity() {
     }
 
     @Composable
-    private fun AscendantScreen(currentZodiacSign: ZodiacSign) {
-        val scrollState = rememberScrollState()
-        Column(modifier = Modifier.verticalScroll(scrollState).padding(15.dp)) {
-            Heading(currentZodiacSign.name)
-            Spacer(Modifier.height(15.dp))
-            Text(
-                "ASCENDANT Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet\n"
-            )
-        }
-        //TODO complete
-    }
-
-    @Composable
     private fun HoroscopeScreen(currentZodiacSign: ZodiacSign) {
         val scrollState = rememberScrollState()
         Column(modifier = Modifier.verticalScroll(scrollState).padding(15.dp)) {
@@ -183,60 +171,6 @@ class Description : ComponentActivity() {
                 "DESCRIPTION Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet\n"
             )
         }
-    }
-
-    //Quelle[L1]
-    @OptIn(ExperimentalPagerApi::class)
-    @Composable
-    fun zodiacSignSwiper(modifier: Modifier):ZodiacSign{
-        val pagerState = rememberPagerState(initialPage = 0)
-        var currentZodiacSign by remember{ mutableStateOf(zodiacSigns[0])}
-
-        LaunchedEffect(pagerState.currentPage) {
-            currentZodiacSign = zodiacSigns[pagerState.currentPage]
-        }
-
-        Column {
-            HorizontalPager(
-                count = zodiacSigns.size,
-                state = pagerState,
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                modifier = Modifier
-                    .height(170.dp)
-                    .fillMaxWidth()
-            ) { page ->
-                Card(
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = modifier
-                        .graphicsLayer {
-                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-
-                            lerp(
-                                start = 0.85f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            ).also { scale ->
-                                scaleX = scale
-                                scaleY = scale
-                            }
-
-                            alpha = lerp(
-                                start = 0.5f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            )
-                        }
-                ) {
-                    Image(
-                        painter = painterResource(id = zodiacSigns[page].drawableRes),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
-        }
-        return currentZodiacSign
     }
 
     @Preview(showBackground = false)
