@@ -35,7 +35,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.aurelia.logic.checkPassword
+import com.example.aurelia.logic.createFileIfNotExistant
 import com.example.aurelia.logic.handleLogin
 import com.example.aurelia.logic.handleRegistration
 import com.example.aurelia.ui.theme.AureliaTheme
@@ -47,21 +50,18 @@ import com.example.aurelia.ui.theme.Typer
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createFileIfNotExistant(this)
         enableEdgeToEdge()
         setContent {
             AureliaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                Navigation()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(modifier: Modifier) {
+fun Greeting(controller: NavController) {
     val context = LocalContext.current
     val backgroundImage: Painter = painterResource(R.drawable.background)
     Box(
@@ -101,8 +101,8 @@ fun Greeting(modifier: Modifier) {
             FancyButton(
                 "Login",
                 onClick = {
-                    if(handleLogin(password, username)){
-                        context.startActivity(Intent(context, MainActivity::class.java))
+                    if(handleLogin(password, username, context)){
+                        context.startActivity(Intent(context, Description::class.java))
                     }
                         else{
                             Toast.makeText(
@@ -117,7 +117,9 @@ fun Greeting(modifier: Modifier) {
             Spacer(Modifier.height(50.dp))
             FancyButton(
                 "Registration",
-                onClick = { handleRegistration(password, username) },
+                onClick = {
+                    controller.navigate("registration")
+                },
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -129,6 +131,6 @@ fun Greeting(modifier: Modifier) {
 @Composable
 fun GreetingPreview() {
     AureliaTheme {
-        Greeting(Modifier.padding(vertical = 15.dp))
+        Greeting(rememberNavController())
     }
 }
