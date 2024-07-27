@@ -41,19 +41,19 @@ import com.google.accompanist.pager.rememberPagerState
 
 class Description : ComponentActivity() {
 
-    val zodiacSigns= listOf(
-        ZodiacSign("Capricorn",R.drawable.steinbock),
-        ZodiacSign("Aquarius",R.drawable.wassermann),
-        ZodiacSign("Pisces",R.drawable.fisch),
-        ZodiacSign("Aries",R.drawable.widder),
-        ZodiacSign("Taurus",R.drawable.stier),
-        ZodiacSign("Gemini",R.drawable.zwilling),
-        ZodiacSign("Cancer",R.drawable.krebs),
-        ZodiacSign("Leo",R.drawable.loewe),
-        ZodiacSign("Virgo",R.drawable.jungfrau),
-        ZodiacSign("Libra",R.drawable.waage),
-        ZodiacSign("Scorpio",R.drawable.skorpion),
-        ZodiacSign("Sagittarius",R.drawable.schuetze)
+    private val zodiacSigns= listOf(
+        ZodiacSign("Capricorn", R.drawable.steinbock,R.raw.steinbock_compatibility),
+        ZodiacSign("Aquarius", R.drawable.wassermann, R.raw.wassermann_compatibility),
+        ZodiacSign("Pisces", R.drawable.fisch,R.raw.fisch_compatibility),
+        ZodiacSign("Aries", R.drawable.widder,R.raw.widder_compatibility),
+        ZodiacSign("Taurus", R.drawable.stier,R.raw.stier_compatibility),
+        ZodiacSign("Gemini", R.drawable.zwilling,R.raw.zwilling_compatibility),
+        ZodiacSign("Cancer", R.drawable.krebs,R.raw.krebs_compatibility),
+        ZodiacSign("Leo", R.drawable.loewe,R.raw.loewe_compatibility),
+        ZodiacSign("Virgo", R.drawable.jungfrau,R.raw.jungfrau_compatibility),
+        ZodiacSign("Libra", R.drawable.waage,R.raw.waage_compatibility),
+        ZodiacSign("Scorpio", R.drawable.skorpion,R.raw.skorpion_compatibility),
+        ZodiacSign("Sagittarius", R.drawable.schuetze,R.raw.schuetze_compatibility)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

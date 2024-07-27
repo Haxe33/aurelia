@@ -31,7 +31,7 @@ fun writeUserData(context: Context, str: String){
     writer.close()
 }
 
-fun createFileIfNotExistant(context:Context){
+fun createFileIfNotExistent(context:Context){
     val f = File(context.filesDir, "users.txt")
     if(!f.exists()){
         try{

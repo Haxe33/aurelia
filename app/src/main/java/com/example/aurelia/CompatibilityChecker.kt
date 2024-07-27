@@ -1,5 +1,6 @@
 package com.example.aurelia
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
@@ -23,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,24 +35,24 @@ import kotlinx.coroutines.delay
 @Composable
 fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+
     Column(modifier = Modifier
         .verticalScroll(scrollState)
         .padding(15.dp))
     {
         Heading(currentZodiacSign.name)
         Spacer(Modifier.height(8.dp))
-        //TODO add Text wie das Sternzeichen so in der Liebe ist
-        Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+        Text(getDescription(context,currentZodiacSign))
         Spacer(Modifier.height(8.dp))
         Heading("Choose your soulmate")
         Spacer(Modifier.height(6.dp))
         val compatibleSign=zodiacSignSwiper(modifier = Modifier.fillMaxWidth())
         Heading(compatibleSign.name)
         Spacer(Modifier.height(8.dp))
-        //TODO add Text wie das Sternzeichen so in der Liebe ist
-        Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+        Text(getDescription(context,compatibleSign))
         Spacer(Modifier.height(8.dp))
-        CompatibilityReveal(modifier = Modifier.size(240.dp))
+        CompatibilityReveal(modifier = Modifier.size(240.dp),currentZodiacSign,compatibleSign)
         Instructions(str = "Press long on the heart to reveal your soulmate!")
     }
 
@@ -59,10 +61,16 @@ fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
 //Quelle [L4] for gesture handling
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CompatibilityReveal(modifier: Modifier = Modifier) {
+fun CompatibilityReveal(modifier: Modifier = Modifier,currentZodiacSign: ZodiacSign, compatibleSign: ZodiacSign) {
     var isVisible by remember { mutableStateOf(true) }
     var progress by remember { mutableStateOf(0.0f) }
-    val targetProgress= getCompatibility()
+    val context = LocalContext.current
+    val targetProgress= getCompatibility(context,currentZodiacSign,compatibleSign)/100.0f
+
+    LaunchedEffect(currentZodiacSign, compatibleSign) {
+        isVisible = true
+        progress = 0.0f
+    }
 
     Column(
         modifier=Modifier
@@ -114,8 +122,29 @@ fun CompatibilityReveal(modifier: Modifier = Modifier) {
     }
 }
 
-//zwei ZodiacSigns übergeben
-fun getCompatibility(): Float {
-    //TODO manage compatibilities
-    return 0.75f
+private fun getCompatibility(context: Context, oneSign:ZodiacSign, otherSign:ZodiacSign): Int{
+    val inputStream = context.resources.openRawResource(oneSign.compatibilities)
+    val compatibilities = inputStream.bufferedReader().use { it.readLines() }
+
+    for(line in compatibilities){
+        val sign=line.split(",")
+        if(sign[0].equals(otherSign.name)){
+            return sign[1].trim().toInt()
+        }
+    }
+    return 0
 }
+
+private fun getDescription(context: Context,zodiacSign: ZodiacSign): String{
+    val inputStream = context.resources.openRawResource(R.raw.love_descriptions)
+    val descriptions = inputStream.bufferedReader().use { it.readLines() }
+
+    for(line in descriptions){
+        val sign=line.split(";")
+        if(sign[0].equals(zodiacSign.name)){
+            return sign[1]
+        }
+    }
+    return ""
+}
+
