@@ -44,3 +44,29 @@ fun createFileIfNotExistent(context:Context){
     }
 }
 
+fun getCompatibility(context: Context, oneSign:ZodiacSign, otherSign:ZodiacSign): Int{
+    val inputStream = context.resources.openRawResource(oneSign.compatibilities)
+    val compatibilities = inputStream.bufferedReader().use { it.readLines() }
+
+    for(line in compatibilities){
+        val sign=line.split(",")
+        if(sign[0].equals(otherSign.name)){
+            return sign[1].trim().toInt()
+        }
+    }
+    return 0
+}
+
+fun getDescription(context: Context,zodiacSign: ZodiacSign, resource: Int): String{
+    val inputStream = context.resources.openRawResource(resource)
+    val descriptions = inputStream.bufferedReader().use { it.readLines() }
+
+    for(line in descriptions){
+        val sign=line.split(";")
+        if(sign[0].equals(zodiacSign.name)){
+            return sign[1]
+        }
+    }
+    return ""
+}
+
