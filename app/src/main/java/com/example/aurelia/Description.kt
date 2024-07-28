@@ -1,6 +1,5 @@
 package com.example.aurelia
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.aurelia.logic.ZodiacSign
+import com.example.aurelia.logic.getDescription
 import com.example.aurelia.ui.theme.AureliaTheme
 import com.example.aurelia.ui.theme.Heading
 import com.example.aurelia.ui.theme.zodiacSignSwiper
@@ -142,26 +142,13 @@ class Description : ComponentActivity() {
     }
 
     @Composable
-    private fun HoroscopeScreen(currentZodiacSign: ZodiacSign) {
-        val scrollState = rememberScrollState()
-        Column(modifier = Modifier.verticalScroll(scrollState).padding(15.dp)) {
-            Heading(currentZodiacSign.name)
-            Spacer(Modifier.height(15.dp))
-            Text(
-                "HOROSCOPE Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet\n"
-            )
-        }
-        //TODO complete: instead of lorem ipsum one horoscope
-    }
-
-    @Composable
     private fun DescriptionScreen(currentZodiacSign: ZodiacSign) {
         val scrollState = rememberScrollState()
         Column(modifier = Modifier.verticalScroll(scrollState).padding(15.dp)) {
             Heading(currentZodiacSign.name)
             Spacer(Modifier.height(15.dp))
             val context = LocalContext.current
-            Text(getDescription(context,currentZodiacSign))
+            Text(getDescription(context,currentZodiacSign,R.raw.sign_descriptions))
         }
     }
 
@@ -178,15 +165,3 @@ class Description : ComponentActivity() {
     }
 }
 
-private fun getDescription(context: Context, zodiacSign: ZodiacSign): String{
-    val inputStream = context.resources.openRawResource(R.raw.sign_descriptions)
-    val descriptions = inputStream.bufferedReader().use { it.readLines() }
-
-    for(line in descriptions){
-        val sign=line.split(";")
-        if(sign[0].equals(zodiacSign.name)){
-            return sign[1]
-        }
-    }
-    return ""
-}

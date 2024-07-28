@@ -1,6 +1,5 @@
 package com.example.aurelia
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
@@ -29,6 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.aurelia.logic.ZodiacSign
+import com.example.aurelia.logic.getCompatibility
+import com.example.aurelia.logic.getDescription
 import com.example.aurelia.ui.theme.*
 import kotlinx.coroutines.delay
 
@@ -43,14 +44,14 @@ fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
     {
         Heading(currentZodiacSign.name)
         Spacer(Modifier.height(8.dp))
-        Text(getDescription(context,currentZodiacSign))
+        Text(getDescription(context,currentZodiacSign,R.raw.love_descriptions))
         Spacer(Modifier.height(8.dp))
         Heading("Choose your soulmate")
         Spacer(Modifier.height(6.dp))
         val compatibleSign=zodiacSignSwiper(modifier = Modifier.fillMaxWidth())
         Heading(compatibleSign.name)
         Spacer(Modifier.height(8.dp))
-        Text(getDescription(context,compatibleSign))
+        Text(getDescription(context,compatibleSign,R.raw.love_descriptions))
         Spacer(Modifier.height(8.dp))
         CompatibilityReveal(modifier = Modifier.size(240.dp),currentZodiacSign,compatibleSign)
         Instructions(str = "Press long on the heart to reveal your soulmate!")
@@ -122,29 +123,5 @@ fun CompatibilityReveal(modifier: Modifier = Modifier,currentZodiacSign: ZodiacS
     }
 }
 
-private fun getCompatibility(context: Context, oneSign:ZodiacSign, otherSign:ZodiacSign): Int{
-    val inputStream = context.resources.openRawResource(oneSign.compatibilities)
-    val compatibilities = inputStream.bufferedReader().use { it.readLines() }
 
-    for(line in compatibilities){
-        val sign=line.split(",")
-        if(sign[0].equals(otherSign.name)){
-            return sign[1].trim().toInt()
-        }
-    }
-    return 0
-}
-
-private fun getDescription(context: Context,zodiacSign: ZodiacSign): String{
-    val inputStream = context.resources.openRawResource(R.raw.love_descriptions)
-    val descriptions = inputStream.bufferedReader().use { it.readLines() }
-
-    for(line in descriptions){
-        val sign=line.split(";")
-        if(sign[0].equals(zodiacSign.name)){
-            return sign[1]
-        }
-    }
-    return ""
-}
 
