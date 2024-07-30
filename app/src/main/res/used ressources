@@ -13,3 +13,15 @@ https://www.hindustantimes.com/astrology/compatibility-calculator
 Sources for Descriptions:
 https://www.zodiacsign.com/
 
+Paul:
+
+[P1] https://developer.android.com/develop/ui/compose/navigation
+
+Sources for Ascendent Calculation:
+[P2] https://de.wikipedia.org/wiki/Aszendent_(Astrologie)
+[P3] https://de.wikipedia.org/wiki/Sternzeit#Berechnung_der_Sternzeit
+[P4] https://de.wikipedia.org/wiki/Julianisches_Datum#Rechnen_mit_dem_Julianischen_Datum
+
+Regex:
+[P5] https://regex101.com/
+
