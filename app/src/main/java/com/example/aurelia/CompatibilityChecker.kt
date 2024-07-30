@@ -44,14 +44,14 @@ fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
     {
         Heading(currentZodiacSign.name)
         Spacer(Modifier.height(8.dp))
-        Text(getDescription(context,currentZodiacSign,R.raw.love_descriptions))
+        FontText(getDescription(context,currentZodiacSign,R.raw.love_descriptions))
         Spacer(Modifier.height(8.dp))
         Heading("Choose your soulmate")
         Spacer(Modifier.height(6.dp))
         val compatibleSign=zodiacSignSwiper(modifier = Modifier.fillMaxWidth())
         Heading(compatibleSign.name)
         Spacer(Modifier.height(8.dp))
-        Text(getDescription(context,compatibleSign,R.raw.love_descriptions))
+        FontText(getDescription(context,compatibleSign,R.raw.love_descriptions))
         Spacer(Modifier.height(8.dp))
         CompatibilityReveal(modifier = Modifier.size(240.dp),currentZodiacSign,compatibleSign)
         Instructions(str = "Press long on the heart to reveal your soulmate!")
@@ -114,6 +114,7 @@ fun CompatibilityReveal(modifier: Modifier = Modifier,currentZodiacSign: ZodiacS
                 )
                 Text(
                     text = "${(progress * 100).toInt()}% match",
+                    fontFamily = aTypewriter,
                     color = Purple80,
                     fontSize = 27.sp,
                     modifier = Modifier.padding(top = 8.dp)

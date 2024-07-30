@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -73,7 +72,7 @@ fun AscendantScreen(currentZodiacSign: ZodiacSign) {
         .padding(15.dp)) {
         Heading(currentZodiacSign.name)
         Spacer(Modifier.height(1.dp))
-        Text("An ascendent is the intersection of the eastern horizon with the ecliptic and indicates the degree of the zodiac rising on the eastern horizon at a given time and geographical location.")
+        FontText("An ascendent is the intersection of the eastern horizon with the ecliptic and indicates the degree of the zodiac rising on the eastern horizon at a given time and geographical location.")
         Spacer(Modifier.height(35.dp))
         Instructions(str = "Please enter your birth data to find your ascendant")
         Spacer(Modifier.height(8.dp))

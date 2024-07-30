@@ -35,7 +35,9 @@ import androidx.compose.ui.unit.dp
 import com.example.aurelia.logic.ZodiacSign
 import com.example.aurelia.logic.getDescription
 import com.example.aurelia.ui.theme.AureliaTheme
+import com.example.aurelia.ui.theme.FontText
 import com.example.aurelia.ui.theme.Heading
+import com.example.aurelia.ui.theme.aTypewriter
 import com.example.aurelia.ui.theme.zodiacSignSwiper
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -117,6 +119,7 @@ class Description : ComponentActivity() {
                         text = {
                             Text(
                                 tab,
+                                fontFamily = aTypewriter,
                                 textAlign = TextAlign.Center,
                                 color = Color.White,
                                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -148,7 +151,7 @@ class Description : ComponentActivity() {
             Heading(currentZodiacSign.name)
             Spacer(Modifier.height(15.dp))
             val context = LocalContext.current
-            Text(getDescription(context,currentZodiacSign,R.raw.sign_descriptions))
+            FontText(getDescription(context,currentZodiacSign,R.raw.sign_descriptions))
         }
     }
 
