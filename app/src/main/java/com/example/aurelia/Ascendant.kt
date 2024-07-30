@@ -1,5 +1,6 @@
 package com.example.aurelia
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,9 +29,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.aurelia.logic.ShakeDetector
 import com.example.aurelia.logic.ZodiacSign
+import com.example.aurelia.logic.getAscendent
 import com.example.aurelia.ui.theme.*
 
 /**
@@ -58,15 +61,15 @@ fun AscendantScreen(currentZodiacSign: ZodiacSign) {
         }
     }
 
-    var dateOfBirth by remember { mutableStateOf("") }
+    var dateOfBirth by remember { mutableStateOf("dd.mm.yyyy") }
     val onDateOfBirthChange = {text: String ->
         dateOfBirth = text
     }
-    var timeOfBirth by remember{ mutableStateOf("") }
+    var timeOfBirth by remember{ mutableStateOf("hh:mm") }
     val onTimeOfBirthChange = {
             text: String -> timeOfBirth = text
     }
-    var placeOfBirth by remember{ mutableStateOf("") }
+    var placeOfBirth by remember{ mutableStateOf("City,Country") }
     val onPlaceOfBirthChange = {
             text: String -> placeOfBirth = text
     }
@@ -97,9 +100,15 @@ fun AscendantScreen(currentZodiacSign: ZodiacSign) {
         )
         Spacer(Modifier.height(10.dp))
         CalcButton(text = "calculate", onClick = {
-            //TODO wenn Eingaben gültig => @Paul
-            isAscendantCalculated = true
-            ascendant= zodiacSigns[6] //TODO retourniere ZodiacSign
+            isAscendantVisible = false
+            var ascen = 0
+            if(checkInput(dateOfBirth, timeOfBirth, placeOfBirth)){
+                ascen = getAscendent(dateOfBirth, timeOfBirth)
+                Log.d("Ascendent", "Ascendent Index: $ascen")
+                isAscendantCalculated = true
+            }
+
+            ascendant = zodiacSigns[ascen]
         })
         if(ascendantReveal(Modifier.height(240.dp), isAscendantVisible, isAscendantCalculated, ascendant)){
             isAscendantVisible=false
@@ -144,4 +153,15 @@ fun ascendantReveal(modifier: Modifier = Modifier, isAscendantVisible: Boolean, 
     return isAscendantVisible
 }
 
+
+fun checkInput(date: String, time: String, place: String): Boolean{
+    // Regex created with [P5]
+    val dateRegex = Regex("([0-9]{2}\\.){2}[0-9]{4}")
+    val timeRegex = Regex("[1-2][0-9]:[0-6][0-9]")
+    val placeRegex = Regex("[A-Za-z\\s]+,[A-Za-z\\s]+")
+
+    return dateRegex.matches(date) &&
+           timeRegex.matches(time) &&
+           placeRegex.matches(place)
+}
 
