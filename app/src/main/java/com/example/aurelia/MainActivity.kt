@@ -110,6 +110,13 @@ fun Greeting(controller: NavController) {
                 },
                 modifier = Modifier.fillMaxWidth()
             )
+            Spacer(Modifier.height(150.dp))
+            FancyButton(
+                text = "Info",
+                onClick = {
+                    controller.navigate("info")
+                }
+            )
         }
     }
 

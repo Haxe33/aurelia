@@ -12,6 +12,6 @@ fun Navigation(){
         composable("login"){ Greeting(controller) }
         composable("registration"){Registration()}
         composable("description"){}
-        composable("info"){ InfoPage()}
+        composable("info"){ InfoPage(controller)}
     }
 }
