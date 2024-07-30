@@ -39,7 +39,7 @@ import com.example.aurelia.ui.theme.Typer
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createFileIfNotExistant(this)
+        createFileIfNotExistent(this)
         enableEdgeToEdge()
         setContent {
             AureliaTheme {
@@ -116,6 +116,13 @@ fun Greeting(controller: NavController) {
                     controller.navigate("registration")
                 },
                 modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(Modifier.height(150.dp))
+            FancyButton(
+                text = "Info",
+                onClick = {
+                    controller.navigate("info")
+                }
             )
         }
     }
