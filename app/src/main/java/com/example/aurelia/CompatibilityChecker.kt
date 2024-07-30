@@ -33,6 +33,10 @@ import com.example.aurelia.logic.getDescription
 import com.example.aurelia.ui.theme.*
 import kotlinx.coroutines.delay
 
+/**
+ * The CompatibilityCheckerScreen contains an additional zodiacSignSwiper which determines the pairing for the compatibility check.
+ * The Compatibility is revealed by a lon press on an heart image
+ */
 @Composable
 fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
     val scrollState = rememberScrollState()
@@ -59,6 +63,9 @@ fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
 
 }
 
+/**
+ * On long press on the heart image, the heart image is removed and a circular progressbar is showing with a launchEffect showing the compatibility.
+ */
 //Quelle [L4] for gesture handling
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -68,6 +75,7 @@ fun CompatibilityReveal(modifier: Modifier = Modifier,currentZodiacSign: ZodiacS
     val context = LocalContext.current
     val targetProgress= getCompatibility(context,currentZodiacSign,compatibleSign)/100.0f
 
+    //quasi ein Listener
     LaunchedEffect(currentZodiacSign, compatibleSign) {
         isVisible = true
         progress = 0.0f
@@ -91,13 +99,13 @@ fun CompatibilityReveal(modifier: Modifier = Modifier,currentZodiacSign: ZodiacS
                 ),
             contentAlignment = Alignment.Center
         ) {
-            if(isVisible) {
+            if(isVisible) { //heart image is showing
                 Image(
                     painter = painterResource(id = R.drawable.heart),
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize()
                 )
-            }else{
+            }else{ //after long press launch effect for circular progressbar
                 LaunchedEffect(isVisible) {
                     progress=0.0f
                     while(progress<targetProgress){
@@ -116,8 +124,8 @@ fun CompatibilityReveal(modifier: Modifier = Modifier,currentZodiacSign: ZodiacS
                     text = "${(progress * 100).toInt()}% match",
                     fontFamily = aTypewriter,
                     color = Purple80,
-                    fontSize = 27.sp,
-                    modifier = Modifier.padding(top = 8.dp)
+                    fontSize = 26.sp,
+                    modifier = Modifier.padding(top =9.dp)
                 )
             }
         }

@@ -33,21 +33,25 @@ import com.example.aurelia.logic.ShakeDetector
 import com.example.aurelia.logic.ZodiacSign
 import com.example.aurelia.ui.theme.*
 
+/**
+ * the AscendantScreen contains fields for entering the date, time and place of birth to calculate the ascendant which is later revealed
+ */
 @Composable
 fun AscendantScreen(currentZodiacSign: ZodiacSign) {
-    val scrollState = rememberScrollState()
+    val scrollState = rememberScrollState() //all screens remember scrollState so that the tabs can be switched without scrolling back up
     var isAscendantVisible by remember{ mutableStateOf(false) }
     var isAscendantCalculated by remember { mutableStateOf(false) }
     var ascendant by remember{ mutableStateOf(zodiacSigns[0]) }
 
     val context = LocalContext.current
 
+    //"register" shakeDetector
     val shakeDetector = remember {
         ShakeDetector(context) {
             isAscendantVisible = true
         }
     }
-
+    //"unregister" shakeDetector
     DisposableEffect(Unit) {
         onDispose {
             shakeDetector.unregister()
@@ -104,13 +108,16 @@ fun AscendantScreen(currentZodiacSign: ZodiacSign) {
     }
 }
 
+/**
+ * This composable contains a method to switch between images after a shake. This is used to reveal the ascendant.
+ */
 @Composable
 fun ascendantReveal(modifier: Modifier = Modifier, isAscendantVisible: Boolean, isAscendantCalculated: Boolean, ascendant: ZodiacSign): Boolean {
     var imageResource by rememberSaveable { mutableIntStateOf(R.drawable.ascendant) }
 
+    //only show ascendant if it is calculated and phone is shaken
     if(isAscendantVisible && isAscendantCalculated){
         imageResource= ascendant.drawableRes
-
     }
 
     Column(
