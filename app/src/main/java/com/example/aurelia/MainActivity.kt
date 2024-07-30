@@ -27,7 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.aurelia.logic.createFileIfNotExistent
+import com.example.aurelia.logic.createFileIfNotExistant
+import com.example.aurelia.logic.getZodiac
 import com.example.aurelia.logic.handleLogin
 import com.example.aurelia.ui.theme.AureliaTheme
 import com.example.aurelia.ui.theme.FancyButton
@@ -60,6 +61,7 @@ fun Greeting(controller: NavController) {
             contentDescription = null, // Set a suitable description
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.fillMaxSize()
+
         )
         Column {
             var username by remember { mutableStateOf("") }
@@ -90,7 +92,12 @@ fun Greeting(controller: NavController) {
                 "Login",
                 onClick = {
                     if(handleLogin(password, username, context)){
-                        context.startActivity(Intent(context, Description::class.java))
+                        val zodiac = getZodiac(context, username)
+                        val intent = Intent(context, Description::class.java)
+                        if(zodiac != ""){
+                            intent.putExtra("Zodiac", zodiac)
+                        }
+                        context.startActivity(intent)
                     }
                         else{
                             Toast.makeText(

@@ -1,11 +1,7 @@
 package com.example.aurelia.logic
 
 import android.content.Context
-import android.content.Intent
-import android.widget.Toast
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import com.example.aurelia.MainActivity
+import android.util.Log
 
 fun handleLogin(pwd:String, user: String, context: Context): Boolean{
     return checkPassword(pwd, user, context)
@@ -25,6 +21,18 @@ fun checkUsername(context: Context, user: String): Boolean{
     }
     return true
 }
+
+fun getZodiac(context: Context, user: String): String{
+    val users = readUserData(context)
+    users.forEach {
+        if(it.getUser() == user){
+            Log.d("Zodiac", it.getZodiacSign())
+            return it.getZodiacSign()
+        }
+    }
+    return ""
+}
+
 fun checkPassword(pwd: String, username: String, context: Context): Boolean{
     val users = readUserData(context)
     users.forEach{
