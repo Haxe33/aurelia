@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import com.example.aurelia.R
 
 
+/**
+ * Textfield for bigger headings
+ */
 @Composable
 fun Heading(str: String){
     Text(
@@ -35,6 +38,10 @@ fun Heading(str: String){
         modifier = Modifier.padding(vertical = 15.dp)
     )
 }
+
+/**
+ * Textfield for labeling input fields
+ */
 @Composable
 fun Label(str: String){
     Text(
@@ -60,6 +67,9 @@ fun Instructions(str: String){
     )
 }
 
+/**
+ * Customized input field
+ */
 @Composable
 fun Typer(str: String, onTextChange: (String) -> Unit, label: String){
     OutlinedTextField(
@@ -70,6 +80,10 @@ fun Typer(str: String, onTextChange: (String) -> Unit, label: String){
     )
 }
 
+
+/**
+ * Customized button
+ */
 @Composable
 fun FancyButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier){
     Box(

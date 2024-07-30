@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.aurelia.logic.createFileIfNotExistant
+import com.example.aurelia.logic.createFileIfNotExistent
 import com.example.aurelia.logic.getZodiac
 import com.example.aurelia.logic.handleLogin
 import com.example.aurelia.ui.theme.AureliaTheme
@@ -49,6 +49,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Defines the Launching / Login Page of the Application
+ * @param controller The NavController which is used for navigating between login and registration
+ */
 @Composable
 fun Greeting(controller: NavController) {
     val context = LocalContext.current
@@ -91,10 +95,13 @@ fun Greeting(controller: NavController) {
             FancyButton(
                 "Login",
                 onClick = {
+                    // Check if the username and password exist and are a valid pair
                     if(handleLogin(password, username, context)){
                         val zodiac = getZodiac(context, username)
                         val intent = Intent(context, Description::class.java)
                         if(zodiac != ""){
+                            // If a Zodiac sign was selected at registration pass it on to the
+                            // Description activity
                             intent.putExtra("Zodiac", zodiac)
                         }
                         context.startActivity(intent)
@@ -110,6 +117,7 @@ fun Greeting(controller: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(50.dp))
+            // Navigate to the Registration page via NavGraph
             FancyButton(
                 "Registration",
                 onClick = {

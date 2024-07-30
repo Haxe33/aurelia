@@ -9,6 +9,14 @@ import java.io.FileReader
 import java.io.IOException
 import java.io.OutputStreamWriter
 
+
+/**
+ * This method is used to read from the sandbox file user.txt
+ * All contents inside the file are of the format <user,password,zodiac>
+ * After getting the contents this method creates a User Object out of it
+ * @param context Application / Activity Context
+ * @return a list of all Users which have yet registered on the app at the certain device
+ */
 fun readUserData(context:Context): List<User>{
     val f = File(context.filesDir, "users.txt")
     val reader = BufferedReader(FileReader(f))
@@ -24,6 +32,11 @@ fun readUserData(context:Context): List<User>{
     return users
 }
 
+/**
+ * This method is needed for writing (Appending mode) to the user.txt file which contains all important user information
+ * @param context Application / Activity context
+ * @param str The string of format <user,password,zodiac> which should be appended on the file
+ */
 fun writeUserData(context: Context, str: String){
     val writer = OutputStreamWriter(context.openFileOutput("users.txt", Context.MODE_APPEND))
     writer.write(str)
@@ -31,6 +44,12 @@ fun writeUserData(context: Context, str: String){
     writer.close()
 }
 
+
+/**
+ * This method is used for creating the users.txt file.
+ * The file users.txt is only created, if the app is started for the first time by a user
+ * @param context Application / Activity context
+ */
 fun createFileIfNotExistent(context:Context){
     val f = File(context.filesDir, "users.txt")
     if(!f.exists()){

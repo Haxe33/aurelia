@@ -1,5 +1,4 @@
 package com.example.aurelia.logic
 
-class AscendentCalculator {
 
-}
+// [P2] in "res/used resources.txt"
