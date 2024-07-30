@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.aurelia.logic.ZodiacSign
 import com.example.aurelia.logic.getDescription
@@ -70,16 +69,21 @@ class Description : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)) {
                         currentZodiacSign=zodiacSignSwiper(modifier = Modifier.fillMaxWidth())
-                        TopBarSwiper(currentZodiacSign)
+                        TapSwiper(currentZodiacSign)
                     }
                 }
             }
         }
     }
+
+    /**
+     * The TapSwiper manages all the screens that are shown for each tab according to every zodiacSign which is chosen by the ZodiacSignSwiper.
+     * One can decide between the description, the horoscope, the ascendant and the compatibility checker
+     */
     //Quelle[L3] for swiper logic
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    fun TopBarSwiper(currentZodiacSign: ZodiacSign) {
+    fun TapSwiper(currentZodiacSign: ZodiacSign) {
         var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
 
         val tabs = listOf(
@@ -88,10 +92,11 @@ class Description : ComponentActivity() {
 
         val pagerState = rememberPagerState(initialPage = 0)
 
+        //effect for switching between tabs
         LaunchedEffect(key1 = selectedTabIndex) {
             pagerState.animateScrollToPage(selectedTabIndex)
         }
-
+        //effect for switching the content of the page below
         LaunchedEffect(key1 = pagerState.currentPage, key2 = pagerState.isScrollInProgress) {
             if (!pagerState.isScrollInProgress) {
                 selectedTabIndex = pagerState.currentPage
@@ -134,7 +139,7 @@ class Description : ComponentActivity() {
                 state = pagerState,
                 modifier = Modifier.fillMaxWidth()
             ) {page ->
-                when (page) {
+                when (page) { //display screen disposables according to tabs
                     0 -> DescriptionScreen(currentZodiacSign)
                     1 -> HoroscopeScreen(currentZodiacSign)
                     2 -> AscendantScreen(currentZodiacSign)
@@ -144,6 +149,9 @@ class Description : ComponentActivity() {
         }
     }
 
+    /**
+     * The DescriptionScreen simply displays an description for every zodiacSign in the first tab
+     */
     @Composable
     private fun DescriptionScreen(currentZodiacSign: ZodiacSign) {
         val scrollState = rememberScrollState()
@@ -155,16 +163,5 @@ class Description : ComponentActivity() {
         }
     }
 
-    @Preview(showBackground = false)
-    @Composable
-    fun DefaultPreview() {
-        AureliaTheme {
-            Column {
-                var currentZodiacSign by remember { mutableStateOf(zodiacSigns[0]) }
-                currentZodiacSign = zodiacSignSwiper(Modifier.padding(vertical = 15.dp))
-                TopBarSwiper(currentZodiacSign = currentZodiacSign)
-            }
-        }
-    }
 }
 

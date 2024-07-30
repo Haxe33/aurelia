@@ -44,6 +44,10 @@ fun createFileIfNotExistent(context:Context){
     }
 }
 
+/**
+ * read the compatibilities from a zodiac sign with all the other from a txt file
+ * @return compatibility as Int for later percentages
+ */
 fun getCompatibility(context: Context, oneSign:ZodiacSign, otherSign:ZodiacSign): Int{
     val inputStream = context.resources.openRawResource(oneSign.compatibilities)
     val compatibilities = inputStream.bufferedReader().use { it.readLines() }
@@ -57,6 +61,11 @@ fun getCompatibility(context: Context, oneSign:ZodiacSign, otherSign:ZodiacSign)
     return 0
 }
 
+/**
+ * this methods reads a description string from a file where the name of the zodiac sign functions as a key
+ * additionally the resource can be passed to reuse the method for different descriptions with the same scheme
+ * @return description as string
+ */
 fun getDescription(context: Context,zodiacSign: ZodiacSign, resource: Int): String{
     val inputStream = context.resources.openRawResource(resource)
     val descriptions = inputStream.bufferedReader().use { it.readLines() }

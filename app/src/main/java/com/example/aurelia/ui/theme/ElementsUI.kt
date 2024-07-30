@@ -44,6 +44,10 @@ fun Label(str: String){
         color = Color.White
     )
 }
+
+/**
+ * small textfield with accent color for instructions for sensors and gestures
+ */
 @Composable
 fun Instructions(str: String){
     Text(
@@ -87,6 +91,9 @@ fun FancyButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier
 
 }
 
+/**
+ * simple Button in a Box matched to the Typers
+ */
 @Composable
 fun CalcButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Box(
@@ -106,6 +113,10 @@ fun CalcButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier)
         )
     }
 }
+
+/**
+ * Composable for a simple Text with a customfont
+ */
 @Composable
 fun FontText(str: String) {
     Text(
@@ -118,6 +129,9 @@ fun FontText(str: String) {
     )
 }
 
+/**
+ * aTypewriter is a fontstyle defined by a .ttf file
+ */
 val aTypewriter = FontFamily(
     Font(R.font.ame, FontWeight.ExtraBold)
 )

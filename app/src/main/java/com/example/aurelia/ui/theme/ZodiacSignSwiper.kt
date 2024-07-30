@@ -28,6 +28,9 @@ import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import kotlin.math.absoluteValue
 
+/**
+ * list of all 12 zodiac signs including a drawable resource and their compatibilities
+ */
 val zodiacSigns= listOf(
     ZodiacSign("Capricorn", R.drawable.steinbock,R.raw.steinbock_compatibility),
     ZodiacSign("Aquarius", R.drawable.wassermann, R.raw.wassermann_compatibility),
@@ -43,13 +46,18 @@ val zodiacSigns= listOf(
     ZodiacSign("Sagittarius", R.drawable.schuetze,R.raw.schuetze_compatibility)
 )
 
+/**
+ * the ZodiacSignSwiper is the core element of the app, which defines all the page content
+ * The user can choose between the 12 zodiac signs and get specified information according to the chosen sign
+ */
 //Quelle[L1]
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun zodiacSignSwiper(modifier: Modifier): ZodiacSign {
-    val pagerState = rememberPagerState(initialPage = 0)
+    val pagerState = rememberPagerState(initialPage = 0) //zodiacSigns showed at the beginning
     var currentZodiacSign by remember{ mutableStateOf(zodiacSigns[0]) }
 
+    //this way the content changes with the current zodiac sign
     LaunchedEffect(pagerState.currentPage) {
         currentZodiacSign = zodiacSigns[pagerState.currentPage]
     }
@@ -63,10 +71,10 @@ fun zodiacSignSwiper(modifier: Modifier): ZodiacSign {
                 .height(170.dp)
                 .fillMaxWidth()
         ) { page ->
-            Card(
+            Card(   //cards are the swipable pictures of the zodiac sings
                 shape = RoundedCornerShape(12.dp),
                 modifier = modifier
-                    .graphicsLayer {
+                    .graphicsLayer { //effects
                         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
 
                         lerp(
