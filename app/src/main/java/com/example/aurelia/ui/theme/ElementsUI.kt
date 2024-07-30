@@ -14,10 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.aurelia.R
 
 
 @Composable
@@ -25,7 +28,8 @@ fun Heading(str: String){
     Text(
         str,
         fontSize = 28.sp,
-        fontFamily = FontFamily.Monospace,
+        fontFamily = aTypewriter,
+        fontWeight = FontWeight.ExtraBold,
         textAlign = TextAlign.Center,
         color = Color.White,
         modifier = Modifier.padding(vertical = 15.dp)
@@ -36,7 +40,7 @@ fun Label(str: String){
     Text(
         str,
         fontSize = 16.sp,
-        fontFamily = FontFamily.Monospace,
+        fontFamily = aTypewriter,
         color = Color.White
     )
 }
@@ -45,7 +49,8 @@ fun Instructions(str: String){
     Text(
         str,
         fontSize = 16.sp,
-        fontFamily = FontFamily.Monospace,
+        fontFamily = aTypewriter,
+        fontWeight = FontWeight.Bold,
         color = Purple80,
         textAlign = TextAlign.Center
     )
@@ -75,7 +80,7 @@ fun FancyButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier
         Text(
             text,
             color = Purple80,
-            fontFamily = FontFamily.Monospace,
+            fontFamily = aTypewriter,
             textAlign = TextAlign.Center
         )
     }
@@ -96,8 +101,23 @@ fun CalcButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier)
         Text(
             text,
             color = Color.White,
-            fontFamily = FontFamily.Monospace,
+            fontFamily = aTypewriter,
             textAlign = TextAlign.Center
         )
     }
 }
+@Composable
+fun FontText(str: String) {
+    Text(
+        text = str,
+        fontSize = 16.sp,
+        fontFamily = aTypewriter,
+        fontWeight = FontWeight.Normal,
+        color = Color.White,
+        textAlign = TextAlign.Left
+    )
+}
+
+val aTypewriter = FontFamily(
+    Font(R.font.ame, FontWeight.ExtraBold)
+)
