@@ -6,19 +6,19 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.Icon
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.sharp.ArrowDropDown
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -62,9 +62,9 @@ fun Registration(){
             val onPasswordChange = { text: String ->
                 password = text
             }
-            var zodiac by remember { mutableStateOf("") }
-            val onZodiacChange = { text: String ->
-                zodiac = text
+            var zodiac by remember { mutableStateOf("Select an option:") }
+            var expanded by remember {
+                mutableStateOf(false)
             }
             Heading("Welcome to Aurelia!")
             Spacer(Modifier.height(50.dp))
@@ -83,7 +83,51 @@ fun Registration(){
             )
             Spacer(Modifier.height(50.dp))
             Label("Choose Zodiac Sign:")
-            ZodiacSelector()
+            val zodiacs = listOf(
+                "Capricorn",
+                "Aquarius",
+                "Pisces",
+                "Aries",
+                "Taurus",
+                "Gemini",
+                "Cancer",
+                "Leo",
+                "Virgo",
+                "Libra",
+                "Scorpio",
+                "Sagittarius"
+            )
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopStart)) {
+                OutlinedTextField(
+                    value = zodiac,
+                    onValueChange = { },
+                    readOnly = true,
+                    label = { Text("Zodiac Sign") },
+                    trailingIcon = {
+                        Icon(Icons.Sharp.ArrowDropDown, "contentDescription",
+                            Modifier.clickable { expanded = !expanded })
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    zodiacs.forEach{
+                        DropdownMenuItem(
+                            text = { Text(it) },
+                            onClick = {
+                                zodiac = it
+                                expanded = false
+                            },
+                            leadingIcon = { Icon(Icons.Default.PlayArrow, "text")}
+                        )
+                    }
+                }
+            }
             Spacer(Modifier.height(150.dp))
             FancyButton(
                 "Registration",
@@ -95,7 +139,7 @@ fun Registration(){
                     else{
                         handleRegistration(password, username, zodiac, context)
                         val intent = Intent(context, Description::class.java)
-                        intent.putExtra("ZodiacSign", zodiac)
+                        intent.putExtra("Zodiac", zodiac)
                         context.startActivity(intent)
                     }
                 },
@@ -105,75 +149,6 @@ fun Registration(){
     }
 }
 
-
-@Composable
-fun ZodiacSelector(){
-    var exp by remember {
-        mutableStateOf(false)
-    }
-    var selected by remember {
-        mutableStateOf("Select an option:")
-    }
-    val zodiacs = listOf(
-        Pair("Steinbock", R.drawable.steinbock),
-        Pair("Wassermann", R.drawable.wassermann),
-        Pair("Fische", R.drawable.fisch),
-        Pair("Widder", R.drawable.widder),
-        Pair("Stier", R.drawable.stier),
-        Pair("Zwillinge", R.drawable.zwilling),
-        Pair("Krebs", R.drawable.krebs),
-        Pair("Löwe", R.drawable.loewe),
-        Pair("Jungfrau", R.drawable.jungfrau),
-        Pair("Waage", R.drawable.waage),
-        Pair("Skorpion", R.drawable.skorpion),
-        Pair("Schütze", R.drawable.schuetze)
-    )
-    Column {
-        OutlinedTextField(
-            value = selected,
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { exp = !exp },
-            readOnly = true,
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.ArrowDropDown,
-                    contentDescription = "arrowdown"
-                )
-            }
-        )
-        DropdownMenu(
-            expanded = exp,
-            onDismissRequest = { exp = false },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            zodiacs.forEach{(text, icon) ->
-                DropdownMenuItem(
-                    onClick = {
-                        exp = false
-                        selected = text
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ){
-                        Image(
-                            painter = painterResource(id = icon),
-                            contentDescription = text,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(Modifier.width(5.dp))
-                        Label(text)
-                    }
-                }
-            }
-
-        }
-    }
-}
 @Preview
 @Composable
 fun RegistrationPreview(){

@@ -1,6 +1,7 @@
 package com.example.aurelia
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -70,6 +71,8 @@ class Description : ComponentActivity() {
         setContent {
             AureliaTheme {
                 //Quelle[L2]
+                val chosenSign = intent.getStringExtra("Zodiac")
+                Log.d("Zodiac", "Description!!! $chosenSign")
                 var currentZodiacSign by remember { mutableStateOf(zodiacSigns[0]) }
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)) {
