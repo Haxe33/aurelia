@@ -27,8 +27,8 @@ fun getAscendent(date: String, time: String): Int{
     val epsilon = 23.4392583
     val st = getStartime(date, time)
     Log.d("Ascendent", "Startime calculated")
-    var result = (0 - cos(st))/(sin(st) * cos(epsilon) + tan(9f) * sin(epsilon))
-    result %= 180
+    var result = (-cos(st))/(sin(st) * cos(epsilon) + tan(9f) * sin(epsilon))
+//    result %= 180
     if(result < 0){
         result = -result
     }

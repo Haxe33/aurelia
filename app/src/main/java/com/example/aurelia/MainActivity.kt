@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(controller: NavController) {
     val context = LocalContext.current
-    val backgroundImage: Painter = painterResource(R.drawable.background)
+    val backgroundImage: Painter = painterResource(R.drawable.backg)
     Box(
         modifier = Modifier.fillMaxSize()
     ){
@@ -82,14 +82,14 @@ fun Greeting(controller: NavController) {
             Typer(
                 username,
                 onUsernameChange,
-                "Username eingeben",
+                "Enter username",
             )
             Spacer(Modifier.height(50.dp))
-            Label("Passwort:")
+            Label("Password:")
             Typer(
                 password,
                 onPasswordChange,
-                "Passwort eingeben"
+                "Enter password"
             )
             Spacer(Modifier.height(50.dp))
             FancyButton(
@@ -109,7 +109,7 @@ fun Greeting(controller: NavController) {
                         else{
                             Toast.makeText(
                                 context,
-                                "Username / Passwort war falsch!",
+                                "Username / Password was wrong!",
                                 Toast.LENGTH_SHORT
                             ).show()
                     }

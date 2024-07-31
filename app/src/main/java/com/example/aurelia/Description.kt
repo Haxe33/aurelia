@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +31,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.aurelia.logic.ZodiacSign
@@ -69,10 +74,20 @@ class Description : ComponentActivity() {
                 val chosenSign = intent.getStringExtra("Zodiac")
                 Log.d("Zodiac", "Description!!! $chosenSign")
 
+                var count = 0;
+                var finalCount = 0;
+
+                zodiacSigns.forEach {
+                    if(it.name == chosenSign){
+                        finalCount = count
+                    }
+                    count++
+                }
+
                 var currentZodiacSign by remember { mutableStateOf(zodiacSigns[0]) }
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)) {
-                        currentZodiacSign=zodiacSignSwiper(modifier = Modifier.fillMaxWidth())
+                        currentZodiacSign=zodiacSignSwiper(modifier = Modifier.fillMaxWidth(), finalCount)
                         TapSwiper(currentZodiacSign)
                     }
                 }
@@ -106,51 +121,60 @@ class Description : ComponentActivity() {
                 selectedTabIndex = pagerState.currentPage
             }
         }
-
-        Column(modifier = Modifier.fillMaxWidth()) {
-            ScrollableTabRow(
-                selectedTabIndex = selectedTabIndex,
-                backgroundColor = Color.Black,
-                edgePadding = 0.dp,
-                indicator = { tabPositions ->
-                    SecondaryIndicator(
-                        Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
-                        color = Color.White
-                    )
+        val backgroundImage: Painter = painterResource(R.drawable.backg)
+        Box(modifier = Modifier.fillMaxSize()){
+            Image(
+                painter = backgroundImage,
+                contentDescription = null, // Set a suitable description
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize()
+            )
+            Column(modifier = Modifier.fillMaxWidth()) {
+                ScrollableTabRow(
+                    selectedTabIndex = selectedTabIndex,
+                    backgroundColor = Color.Black,
+                    edgePadding = 0.dp,
+                    indicator = { tabPositions ->
+                        SecondaryIndicator(
+                            Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+                            color = Color.White
+                        )
+                    }
+                ) {
+                    tabs.forEachIndexed { index, tab ->
+                        Tab(
+                            selected = selectedTabIndex == index,
+                            onClick = {
+                                selectedTabIndex = index
+                            },
+                            text = {
+                                Text(
+                                    tab,
+                                    fontFamily = aTypewriter,
+                                    textAlign = TextAlign.Center,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(horizontal = 16.dp)
+                                )
+                            }
+                        )
+                    }
                 }
-            ) {
-                tabs.forEachIndexed { index, tab ->
-                    Tab(
-                        selected = selectedTabIndex == index,
-                        onClick = {
-                            selectedTabIndex = index
-                        },
-                        text = {
-                            Text(
-                                tab,
-                                fontFamily = aTypewriter,
-                                textAlign = TextAlign.Center,
-                                color = Color.White,
-                                modifier = Modifier.padding(horizontal = 16.dp)
-                            )
-                        }
-                    )
-                }
-            }
 
-            HorizontalPager(
-                count = tabs.size,
-                state = pagerState,
-                modifier = Modifier.fillMaxWidth()
-            ) {page ->
-                when (page) { //display screen disposables according to tabs
-                    0 -> DescriptionScreen(currentZodiacSign)
-                    1 -> HoroscopeScreen(currentZodiacSign)
-                    2 -> AscendantScreen(currentZodiacSign)
-                    3 -> CompatibilityCheckerScreen(currentZodiacSign)
+                HorizontalPager(
+                    count = tabs.size,
+                    state = pagerState,
+                    modifier = Modifier.fillMaxWidth()
+                ) {page ->
+                    when (page) { //display screen disposables according to tabs
+                        0 -> DescriptionScreen(currentZodiacSign)
+                        1 -> HoroscopeScreen(currentZodiacSign)
+                        2 -> AscendantScreen(currentZodiacSign)
+                        3 -> CompatibilityCheckerScreen(currentZodiacSign)
+                    }
                 }
             }
         }
+
     }
 
     /**

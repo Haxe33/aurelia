@@ -30,7 +30,7 @@ import com.example.aurelia.R
 fun Heading(str: String){
     Text(
         str,
-        fontSize = 28.sp,
+        fontSize = 32.sp,
         fontFamily = aTypewriter,
         fontWeight = FontWeight.ExtraBold,
         textAlign = TextAlign.Center,
@@ -75,7 +75,7 @@ fun Typer(str: String, onTextChange: (String) -> Unit, label: String){
     OutlinedTextField(
         str,
         onTextChange,
-        label = { Text(label) },
+        label = { FontText(label) },
         modifier = Modifier.fillMaxWidth()
     )
 }
