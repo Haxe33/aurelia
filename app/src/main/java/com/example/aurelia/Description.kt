@@ -74,8 +74,8 @@ class Description : ComponentActivity() {
                 val chosenSign = intent.getStringExtra("Zodiac")
                 Log.d("Zodiac", "Description!!! $chosenSign")
 
-                var count = 0;
-                var finalCount = 0;
+                var count = 0
+                var finalCount = 0
 
                 zodiacSigns.forEach {
                     if(it.name == chosenSign){
@@ -123,7 +123,7 @@ class Description : ComponentActivity() {
         }
         val backgroundImage: Painter = painterResource(R.drawable.backg)
         Box(modifier = Modifier.fillMaxSize()){
-            Image(
+            Image( //ChatGPT als Hilfe
                 painter = backgroundImage,
                 contentDescription = null, // Set a suitable description
                 contentScale = ContentScale.FillBounds,

@@ -60,7 +60,7 @@ fun InfoPage(navController: NavController) {
             .fillMaxSize()
             .background(Color.Black)
     ) {
-        Image(
+        Image( //ChatGPT als Hilfe
             painter = backgroundImage,
             contentDescription = null, // Set a suitable description
             contentScale = ContentScale.FillBounds,

@@ -60,7 +60,7 @@ fun Greeting(controller: NavController) {
     Box(
         modifier = Modifier.fillMaxSize()
     ){
-        Image(
+        Image( //ChatGPT als Hilfe
             painter = backgroundImage,
             contentDescription = null, // Set a suitable description
             contentScale = ContentScale.FillBounds,
