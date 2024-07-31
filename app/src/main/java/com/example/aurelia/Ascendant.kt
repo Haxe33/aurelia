@@ -29,7 +29,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.aurelia.logic.ShakeDetector
 import com.example.aurelia.logic.ZodiacSign
@@ -61,15 +60,15 @@ fun AscendantScreen(currentZodiacSign: ZodiacSign) {
         }
     }
 
-    var dateOfBirth by remember { mutableStateOf("dd.mm.yyyy") }
+    var dateOfBirth by rememberSaveable { mutableStateOf("dd.mm.yyyy") }
     val onDateOfBirthChange = {text: String ->
         dateOfBirth = text
     }
-    var timeOfBirth by remember{ mutableStateOf("hh:mm") }
+    var timeOfBirth by rememberSaveable { mutableStateOf("hh:mm") }
     val onTimeOfBirthChange = {
             text: String -> timeOfBirth = text
     }
-    var placeOfBirth by remember{ mutableStateOf("City,Country") }
+    var placeOfBirth by rememberSaveable { mutableStateOf("City,Country") }
     val onPlaceOfBirthChange = {
             text: String -> placeOfBirth = text
     }
@@ -125,12 +124,15 @@ fun ascendantReveal(modifier: Modifier = Modifier, isAscendantVisible: Boolean, 
     var imageResource by rememberSaveable { mutableIntStateOf(R.drawable.ascendant) }
 
     //only show ascendant if it is calculated and phone is shaken
-    if(isAscendantVisible && isAscendantCalculated){
-        imageResource= ascendant.drawableRes
+    imageResource = if(isAscendantVisible && isAscendantCalculated){
+        ascendant.drawableRes
+    }
+    else{
+        R.drawable.ascendant
     }
 
     Column(
-        modifier=Modifier
+        modifier= Modifier
             .fillMaxSize()
             .padding(25.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -145,7 +147,9 @@ fun ascendantReveal(modifier: Modifier = Modifier, isAscendantVisible: Boolean, 
             Image(
                 painter = painterResource(id = imageResource),
                 contentDescription = "AscendantRevealer",
-                modifier = modifier.fillMaxSize().padding(8.dp)
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
             )
         }
     }
