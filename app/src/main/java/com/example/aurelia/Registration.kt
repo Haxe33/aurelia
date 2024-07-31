@@ -43,7 +43,7 @@ import com.example.aurelia.ui.theme.Typer
 @Composable
 fun Registration(){
     val context = LocalContext.current
-    val backgroundImage: Painter = painterResource(R.drawable.background)
+    val backgroundImage: Painter = painterResource(R.drawable.backg)
     Box(
         modifier = Modifier.fillMaxSize()
     ){
@@ -68,18 +68,18 @@ fun Registration(){
             }
             Heading("Welcome to Aurelia!")
             Spacer(Modifier.height(50.dp))
-            Label("Username auswählen:")
+            Label("Choose username:")
             Typer(
                 username,
                 onUsernameChange,
-                "Username eingeben",
+                "Enter username",
             )
             Spacer(Modifier.height(50.dp))
-            Label("Passwort auswählen:")
+            Label("Choose password:")
             Typer(
                 password,
                 onPasswordChange,
-                "Passwort eingeben"
+                "Enter password"
             )
             Spacer(Modifier.height(50.dp))
             Label("Choose Zodiac Sign:")
@@ -133,7 +133,7 @@ fun Registration(){
                 "Registration",
                 onClick = {
                     if(!checkUsername(context, username)){
-                        Toast.makeText(context, "Username schon vergeben!", Toast.LENGTH_SHORT)
+                        Toast.makeText(context, "Username already in use!", Toast.LENGTH_SHORT)
                             .show()
                     }
                     else{

@@ -52,7 +52,7 @@ fun CompatibilityCheckerScreen(currentZodiacSign: ZodiacSign) {
         Spacer(Modifier.height(8.dp))
         Heading("Choose your soulmate")
         Spacer(Modifier.height(6.dp))
-        val compatibleSign=zodiacSignSwiper(modifier = Modifier.fillMaxWidth())
+        val compatibleSign=zodiacSignSwiper(modifier = Modifier.fillMaxWidth(), 0)
         Heading(compatibleSign.name)
         Spacer(Modifier.height(8.dp))
         FontText(getDescription(context,compatibleSign,R.raw.love_descriptions))

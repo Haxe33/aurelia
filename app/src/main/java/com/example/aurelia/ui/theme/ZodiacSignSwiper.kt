@@ -53,8 +53,8 @@ val zodiacSigns= listOf(
 //Quelle[L1]
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun zodiacSignSwiper(modifier: Modifier): ZodiacSign {
-    val pagerState = rememberPagerState(initialPage = 0) //zodiacSigns showed at the beginning
+fun zodiacSignSwiper(modifier: Modifier, state: Int): ZodiacSign {
+    val pagerState = rememberPagerState(initialPage = state) //zodiacSigns showed at the beginning
     var currentZodiacSign by remember{ mutableStateOf(zodiacSigns[0]) }
 
     //this way the content changes with the current zodiac sign
