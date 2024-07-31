@@ -14,7 +14,7 @@ import kotlin.math.*
 //Quelle [L5] for one time triggered sensor
 class ShakeDetector(context: Context, private val onShake: () -> Unit): SensorEventListener {
     private val sensorManager: SensorManager=context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    private val gyroscope: Sensor? =sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+    private val gyroscope: Sensor? =sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
     private var timestamp: Float = 0f
     private val SHAKE_THRESHOLD = 1.0f
 
