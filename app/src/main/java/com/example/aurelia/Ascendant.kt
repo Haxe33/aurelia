@@ -124,11 +124,8 @@ fun ascendantReveal(modifier: Modifier = Modifier, isAscendantVisible: Boolean, 
     var imageResource by rememberSaveable { mutableIntStateOf(R.drawable.ascendant) }
 
     //only show ascendant if it is calculated and phone is shaken
-    imageResource = if(isAscendantVisible && isAscendantCalculated){
-        ascendant.drawableRes
-    }
-    else{
-        R.drawable.ascendant
+    if(isAscendantVisible && isAscendantCalculated){
+        imageResource = ascendant.drawableRes
     }
 
     Column(
